@@ -19,4 +19,5 @@ Station Analysis:
 4. Histogram plot showed that the temperature was mostly around 75 deg Farenheit for most of the observations.
 
 Step 2:
-
+Used VS code to produce and design a Flask API based on queries in Step 1.
+Flask was used to design routes, generate endpoints and JSONIFY the endpoints.
