@@ -89,8 +89,10 @@ def temp():
     # Closing out session
     session.close()
 
+    # Putting all queried information into a list of dictionary
     full_stn_data = [{'Date': date, 'Temp': temp} for date, temp in date_n_precp]
 
+    # Improving presentation on JSON
     fst_stn = list(np.ravel(full_stn_data))
      
     return jsonify(fst_stn)
