@@ -39,7 +39,8 @@ def Home():
         f"/api/v1.0/stations<br/>"
         f"/api/v1.0/tobs<br/>"
         f"/api/v1.0/start<br/>"
-        f"/api/v1.0/start/end<br/>"        
+        f"/api/v1.0/end<br/>"
+        f"/api/v1.0/<start>/<end>"        
     )
 
 
@@ -89,12 +90,31 @@ def calc_temp():
     session.close()
     return jsonify(results)
 
+
+@app.route("/api/v1.0/end")
+def end_dt_tmp():
+    
+    end_date = '2017-08-23'
+    
+    # Query for start date and above covering last year before most recent year
+    end_results = session.query(func.min(measurement.tobs), func.avg(measurement.tobs), func.max(measurement.tobs)).\
+        filter(measurement.date <= end_date).all()
+    # Session close to free up memory
+    session.close()
+    return jsonify(end_results)
+
+
 # App route for end date min, avg and max temp for start and end
-@app.route("/api/v1.0/start/end")
+@app.route("/api/v1.0/<start>/<end>")
 def start_end_dt(start,end):
+    start = '2016-08-15'
+    end = '2016-12-10'
+    #(start,end)
     tmp_results = session.query(func.min(measurement.tobs), func.avg(measurement.tobs), func.max(measurement.tobs)).filter(measurement.date >= start).filter(measurement.date <= end).all()
     session.close()
     return jsonify(tmp_results)
+
+
 
 # This section was inputed for when client requests are made but I thought it may be 
 # too broad to tidy up for this HW. It defines end point generation for faulty entries
