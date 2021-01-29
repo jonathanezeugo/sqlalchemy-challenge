@@ -112,7 +112,10 @@ def calc_temp():
         filter(measurement.date >= start_date).all()
     # Session close to free up memory
     session.close()
-    return jsonify(results)
+
+    one_start = [{'Min Temp': min, 'Avg Temp': avg, 'Max Temp': max} for min, avg, max in results]
+
+    return jsonify(one_start)
 
 
 @app.route("/api/v1.0/<start>")
@@ -126,7 +129,10 @@ def end_dt_tmp(start):
         filter(measurement.date >= start).all()
     # Session close to free up memory
     session.close()
-    return jsonify(start_results)
+
+    inpt_start = [{'Min Temp': min, 'Avg Temp': avg, 'Max Temp': max} for min, avg, max in start_results]
+
+    return jsonify(inpt_start)
 
 
 # 
@@ -140,8 +146,11 @@ def start_end_dt(start,end):
     session.close()
 
     # Converting list of tuples into normal list
-    all_finds = list(np.ravel(finds))
-    return jsonify(all_finds)
+    #all_finds = list(np.ravel(finds))
+
+    start_end = [{'Min Temp': min, 'Avg Temp': avg, 'Max Temp': max} for min, avg, max in finds]  
+
+    return jsonify(start_end)
     
 
 # This section was inputed for when client requests are made but I thought it may be 
