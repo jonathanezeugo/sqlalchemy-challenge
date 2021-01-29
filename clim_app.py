@@ -86,12 +86,12 @@ def temp():
     stn_name = hghst_stn[0]
     stn_wID = hghst_stn[1]
 
-    date_n_precp = session.query(measurement.date, measurement.tobs).filter(measurement.date >= year_ago).filter(measurement.station == stn_wID).all()
+    date_n_precp = session.query(station.name, measurement.date, measurement.tobs).filter(measurement.date >= year_ago).filter(measurement.station == stn_wID).all()
     # Closing out session
     session.close()
 
     # Putting all queried information into a list of dictionary
-    full_stn_data = [{'Date': date, 'Temp': temp} for date, temp in date_n_precp]
+    full_stn_data = [{'Name': name, 'Date': date, 'Temp': temp} for name, date, temp in date_n_precp]
 
     # Improving presentation on JSON
     fst_stn = list(np.ravel(full_stn_data))
