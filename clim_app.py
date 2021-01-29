@@ -93,6 +93,7 @@ def calc_temp():
 @app.route("/api/v1.0/start/end")
 def start_end_dt(start,end):
     tmp_results = session.query(func.min(measurement.tobs), func.avg(measurement.tobs), func.max(measurement.tobs)).filter(measurement.date >= start).filter(measurement.date <= end).all()
+    session.close()
     return jsonify(tmp_results)
 
 # This section was inputed for when client requests are made but I thought it may be 
